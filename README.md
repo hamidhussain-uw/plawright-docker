@@ -2,7 +2,7 @@
 
 A ready-to-use Playwright testing environment containerized with Docker. This repository includes Node.js, Playwright, and all required browsers pre-installed, making it easy to run tests on any system without local setup.
 
-> 📊 **[View Latest Test Report](https://YOUR_USERNAME.github.io/plawright-docker/)** - HTML test reports are automatically hosted on GitHub Pages after each test run.
+> 📊 **[View Latest Test Report](https://hamidhussain-uw.github.io/plawright-docker/)** - HTML test reports are automatically hosted on GitHub Pages after each test run.
 
 ## Features
 
@@ -124,7 +124,7 @@ Test results are automatically saved to your host machine. After running tests:
 
 **View HTML Report:**
 
-1. **Hosted Report (GitHub Pages):** After tests run on the main branch, the report is automatically deployed to GitHub Pages. [View Latest Report](https://YOUR_USERNAME.github.io/plawright-docker/)
+1. **Hosted Report (GitHub Pages):** After tests run on the main branch, the report is automatically deployed to GitHub Pages. [View Latest Report](https://hamidhussain-uw.github.io/plawright-docker/)
 
 2. **Local Reports:**
    ```bash
@@ -240,10 +240,7 @@ To enable the hosted test reports:
 1. Go to your repository **Settings** → **Pages**
 2. Under **Source**, select **GitHub Actions**
 3. The workflow will automatically deploy reports after each test run on the main/master branch
-4. Update the report link in the README with your actual repository URL:
-   - Replace `YOUR_USERNAME` with your GitHub username
-   - Replace `plawright-docker` with your repository name if different
-   - The URL format is: `https://YOUR_USERNAME.github.io/REPO_NAME/`
+4. The report will be available at: `https://hamidhussain-uw.github.io/plawright-docker/`
 
 ### Minimal Example
 
