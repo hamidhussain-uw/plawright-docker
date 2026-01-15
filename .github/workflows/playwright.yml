@@ -24,10 +24,10 @@ jobs:
       uses: docker/setup-buildx-action@v3
     
     - name: Build Docker image
-      run: docker-compose build
+      run: docker compose build
     
     - name: Run Playwright tests
-      run: docker-compose run --rm playwright npm test --project=${{ matrix.browser }}
+      run: docker compose run --rm playwright npm test --project=${{ matrix.browser }}
     
     - name: Upload test results
       if: always()
@@ -69,11 +69,11 @@ jobs:
         path: all-artifacts
     
     - name: Build Docker image
-      run: docker-compose build
+      run: docker compose build
     
     - name: Generate HTML report
       run: |
-        docker-compose run --rm playwright npm run test:report || true
+        docker compose run --rm playwright npm run test:report || true
     
     - name: Upload HTML report
       uses: actions/upload-artifact@v4

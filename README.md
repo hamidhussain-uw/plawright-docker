@@ -18,6 +18,8 @@ A ready-to-use Playwright testing environment containerized with Docker. This re
 
 ## Quick Start
 
+> **Note:** This guide uses `docker compose` (space) which is Docker Compose V2 format. If you have the older standalone `docker-compose` (hyphen) installed, you can use that instead. Both work locally, but GitHub Actions requires `docker compose` (space).
+
 ### 1. Clone or download this repository
 
 ```bash
@@ -28,7 +30,7 @@ cd plawright-docker
 ### 2. Build the Docker image
 
 ```bash
-docker-compose build
+docker compose build
 ```
 
 This will:
@@ -42,13 +44,13 @@ This will:
 ### 3. Run tests
 
 ```bash
-docker-compose run --rm playwright npm test
+docker compose run --rm playwright npm test
 ```
 
 Or simply:
 
 ```bash
-docker-compose up
+docker compose up
 ```
 
 ## Usage
@@ -57,27 +59,27 @@ docker-compose up
 
 **Run all tests:**
 ```bash
-docker-compose run --rm playwright npm test
+docker compose run --rm playwright npm test
 ```
 
 **Run tests in headed mode (with browser UI):**
 ```bash
-docker-compose run --rm playwright npm run test:headed
+docker compose run --rm playwright npm run test:headed
 ```
 
 **Run tests with UI mode:**
 ```bash
-docker-compose run --rm playwright npm run test:ui
+docker compose run --rm playwright npm run test:ui
 ```
 
 **Run tests in debug mode:**
 ```bash
-docker-compose run --rm playwright npm run test:debug
+docker compose run --rm playwright npm run test:debug
 ```
 
 **View test report:**
 ```bash
-docker-compose run --rm playwright npm run test:report
+docker compose run --rm playwright npm run test:report
 ```
 
 ### Project Structure
@@ -105,14 +107,14 @@ mkdir tests
 
 3. Run tests:
 ```bash
-docker-compose run --rm playwright npm test
+docker compose run --rm playwright npm test
 ```
 
 ### Viewing Test Results
 
 Test results are automatically saved to the `test-results` directory on your host machine. You can:
 
-- View HTML reports: `docker-compose run --rm playwright npm run test:report`
+- View HTML reports: `docker compose run --rm playwright npm run test:report`
 - Check screenshots in `screenshots/` directory
 - Check videos in `videos/` directory
 
@@ -150,7 +152,7 @@ Edit `package.json` to add custom scripts:
 
 If browsers fail to install, rebuild the image:
 ```bash
-docker-compose build --no-cache
+docker compose build --no-cache
 ```
 
 ### Permission Issues
@@ -168,7 +170,7 @@ If tests fail due to memory issues, increase Docker's memory limit in Docker Des
 
 View container logs:
 ```bash
-docker-compose logs playwright
+docker compose logs playwright
 ```
 
 ## CI/CD Integration
@@ -179,8 +181,8 @@ This setup works great in CI/CD pipelines. A complete GitHub Actions workflow is
 
 **GitHub Actions automatically:**
 1. ✅ Has Docker pre-installed on `ubuntu-latest` runners
-2. ✅ Has Docker Compose available (no installation needed)
-3. ✅ Can run `docker-compose` commands directly
+2. ✅ Has Docker Compose V2 available (no installation needed)
+3. ✅ Can run `docker compose` commands directly (note: space, not hyphen)
 4. ✅ No additional setup or configuration needed
 5. ✅ Works immediately when you push the workflow file
 
@@ -220,8 +222,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Run Playwright tests
         run: |
-          docker-compose build
-          docker-compose run --rm playwright npm test
+          docker compose build
+          docker compose run --rm playwright npm test
 ```
 
 **That's it!** No Node.js setup, no browser installation, no system dependencies. Just Docker (which is pre-installed on GitHub runners).
@@ -231,27 +233,27 @@ jobs:
 ### Running Specific Tests
 
 ```bash
-docker-compose run --rm playwright npx playwright test tests/specific-test.spec.ts
+docker compose run --rm playwright npx playwright test tests/specific-test.spec.ts
 ```
 
 ### Running Tests in Specific Browser
 
 ```bash
-docker-compose run --rm playwright npx playwright test --project=chromium
+docker compose run --rm playwright npx playwright test --project=chromium
 ```
 
 ### Interactive Shell
 
 Access the container shell:
 ```bash
-docker-compose run --rm playwright /bin/bash
+docker compose run --rm playwright /bin/bash
 ```
 
 ### Custom Commands
 
 Override the default command:
 ```bash
-docker-compose run --rm playwright npx playwright test --grep "login"
+docker compose run --rm playwright npx playwright test --grep "login"
 ```
 
 ## Hosting and Distribution
@@ -323,7 +325,7 @@ services:
 - **No Node.js installation needed**: Users don't need to install Node.js on their machine
 - **No browser downloads**: Browsers are pre-installed in the image (~1-2GB download once, then cached)
 - **No system dependencies**: All required libraries are bundled in the container
-- **One command to run**: Just `docker-compose up` and you're ready
+- **One command to run**: Just `docker compose up` and you're ready
 
 ### ✅ **Isolation and Cleanliness**
 - **No pollution of host system**: Everything runs in a container, nothing installed on your machine

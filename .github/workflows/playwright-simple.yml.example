@@ -17,5 +17,5 @@ jobs:
       
       - name: Build and run tests
         run: |
-          docker-compose build
-          docker-compose run --rm playwright npm test
+          docker compose build
+          docker compose run --rm playwright npm test
