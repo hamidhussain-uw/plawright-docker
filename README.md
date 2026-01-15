@@ -2,6 +2,8 @@
 
 A ready-to-use Playwright testing environment containerized with Docker. This repository includes Node.js, Playwright, and all required browsers pre-installed, making it easy to run tests on any system without local setup.
 
+> 📊 **[View Latest Test Report](https://YOUR_USERNAME.github.io/plawright-docker/)** - HTML test reports are automatically hosted on GitHub Pages after each test run.
+
 ## Features
 
 - ✅ **Node.js 20 LTS** pre-installed
@@ -121,14 +123,18 @@ docker compose run --rm playwright npm test
 Test results are automatically saved to your host machine. After running tests:
 
 **View HTML Report:**
-```bash
-# Option 1: Open the HTML report directly in your browser
-# Navigate to: playwright-report/index.html
 
-# Option 2: Use Playwright's built-in server (recommended)
-docker compose run --rm playwright npm run test:report
-# This will start a local server - open the URL shown in the terminal
-```
+1. **Hosted Report (GitHub Pages):** After tests run on the main branch, the report is automatically deployed to GitHub Pages. [View Latest Report](https://YOUR_USERNAME.github.io/plawright-docker/)
+
+2. **Local Reports:**
+   ```bash
+   # Option 1: Open the HTML report directly in your browser
+   # Navigate to: playwright-report/index.html
+   
+   # Option 2: Use Playwright's built-in server (recommended)
+   docker compose run --rm playwright npm run test:report
+   # This will start a local server - open the URL shown in the terminal
+   ```
 
 **Other Results:**
 - Test artifacts: `test-results/` directory
@@ -224,7 +230,20 @@ The included workflow:
 - ✅ Tests against all browsers (Chromium, Firefox) in parallel
 - ✅ Uploads test reports, screenshots, and videos as artifacts
 - ✅ Generates HTML reports for easy viewing
+- ✅ **Automatically deploys HTML reports to GitHub Pages** (main/master branch only)
 - ✅ Can be manually triggered via `workflow_dispatch`
+
+### Enabling GitHub Pages
+
+To enable the hosted test reports:
+
+1. Go to your repository **Settings** → **Pages**
+2. Under **Source**, select **GitHub Actions**
+3. The workflow will automatically deploy reports after each test run on the main/master branch
+4. Update the report link in the README with your actual repository URL:
+   - Replace `YOUR_USERNAME` with your GitHub username
+   - Replace `plawright-docker` with your repository name if different
+   - The URL format is: `https://YOUR_USERNAME.github.io/REPO_NAME/`
 
 ### Minimal Example
 

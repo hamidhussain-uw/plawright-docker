@@ -55,22 +55,51 @@ jobs:
         path: videos/
         retention-days: 7
 
-  # Optional: Test report job that runs after all browsers complete
-  # Note: HTML reports are already generated during test runs and uploaded as artifacts
-  # This job can be used to download and view combined reports if needed
-  report:
-    if: always()
+  # Deploy HTML report to GitHub Pages
+  deploy-report:
+    # Only deploy on main/master branch, not on PRs
+    if: always() && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
     needs: test
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     steps:
     - uses: actions/checkout@v4
     
-    - name: Download all artifacts
+    - name: Download all test reports
       uses: actions/download-artifact@v4
       with:
         path: all-artifacts
+        pattern: playwright-report-*
     
-    - name: Note about reports
+    - name: Setup Pages
+      uses: actions/configure-pages@v4
+    
+    - name: Prepare report for deployment
       run: |
-        echo "HTML reports are available in the artifacts from each browser test run."
-        echo "Download the 'playwright-report-<browser>' artifacts to view reports."
+        # Create report directory
+        mkdir -p report
+        
+        # Find the most recent report (prefer chromium, then firefox)
+        if [ -d "all-artifacts/playwright-report-chromium/playwright-report" ]; then
+          cp -r all-artifacts/playwright-report-chromium/playwright-report/* report/ || true
+        elif [ -d "all-artifacts/playwright-report-firefox/playwright-report" ]; then
+          cp -r all-artifacts/playwright-report-firefox/playwright-report/* report/ || true
+        fi
+        
+        # If no report found, create a placeholder
+        if [ ! -f "report/index.html" ]; then
+          mkdir -p report
+          echo "<!DOCTYPE html><html><head><title>Test Report</title></head><body><h1>No test report available</h1><p>Reports are generated after test runs complete.</p></body></html>" > report/index.html
+        fi
+    
+    - name: Upload artifact for Pages
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: ./report
+    
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4
