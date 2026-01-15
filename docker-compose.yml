@@ -11,6 +11,8 @@ services:
       - ./tests:/app/tests
       # Mount results directory for test reports
       - ./test-results:/app/test-results
+      # Mount HTML report directory
+      - ./playwright-report:/app/playwright-report
       # Mount screenshots directory
       - ./screenshots:/app/screenshots
       # Mount videos directory

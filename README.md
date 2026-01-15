@@ -6,7 +6,7 @@ A ready-to-use Playwright testing environment containerized with Docker. This re
 
 - ✅ **Node.js 20 LTS** pre-installed
 - ✅ **Playwright** with all dependencies
-- ✅ **Browsers** (Chromium, Firefox, WebKit) pre-installed
+- ✅ **Browsers** (Chromium, Firefox) pre-installed
 - ✅ **Docker Compose** for easy orchestration
 - ✅ **Volume mounts** for tests and results
 - ✅ **Zero configuration** required - ready to use out of the box
@@ -36,7 +36,7 @@ docker compose build
 This will:
 - Install Node.js 20
 - Install Playwright and all dependencies
-- Download and install Chromium, Firefox, and WebKit browsers
+- Download and install Chromium and Firefox browsers
 - Set up the testing environment
 
 **Note:** The first build may take several minutes as it downloads browsers (~1-2 GB).
@@ -51,6 +51,12 @@ Or simply:
 
 ```bash
 docker compose up
+```
+
+**View the test report:**
+After tests complete, open `playwright-report/index.html` in your browser, or run:
+```bash
+docker compose run --rm playwright npm run test:report
 ```
 
 ## Usage
@@ -112,11 +118,23 @@ docker compose run --rm playwright npm test
 
 ### Viewing Test Results
 
-Test results are automatically saved to the `test-results` directory on your host machine. You can:
+Test results are automatically saved to your host machine. After running tests:
 
-- View HTML reports: `docker compose run --rm playwright npm run test:report`
-- Check screenshots in `screenshots/` directory
-- Check videos in `videos/` directory
+**View HTML Report:**
+```bash
+# Option 1: Open the HTML report directly in your browser
+# Navigate to: playwright-report/index.html
+
+# Option 2: Use Playwright's built-in server (recommended)
+docker compose run --rm playwright npm run test:report
+# This will start a local server - open the URL shown in the terminal
+```
+
+**Other Results:**
+- Test artifacts: `test-results/` directory
+- Screenshots: `screenshots/` directory (on test failures)
+- Videos: `videos/` directory (on test failures)
+- HTML Report: `playwright-report/` directory
 
 ## Configuration
 
@@ -203,7 +221,7 @@ This setup works great in CI/CD pipelines. A complete GitHub Actions workflow is
 
 The included workflow:
 - ✅ Runs tests on push/PR to main/master/develop branches
-- ✅ Tests against all browsers (Chromium, Firefox, WebKit) in parallel
+- ✅ Tests against all browsers (Chromium, Firefox) in parallel
 - ✅ Uploads test reports, screenshots, and videos as artifacts
 - ✅ Generates HTML reports for easy viewing
 - ✅ Can be manually triggered via `workflow_dispatch`

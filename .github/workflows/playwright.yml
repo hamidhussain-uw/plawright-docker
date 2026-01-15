@@ -15,7 +15,7 @@ jobs:
       fail-fast: false
       matrix:
         # Test against multiple browsers
-        browser: [chromium, firefox, webkit]
+        browser: [chromium, firefox]
     
     steps:
     - uses: actions/checkout@v4

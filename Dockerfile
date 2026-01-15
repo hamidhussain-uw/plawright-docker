@@ -6,6 +6,7 @@ WORKDIR /app
 
 # Install system dependencies required for Playwright browsers
 RUN apt-get update && apt-get install -y \
+    ca-certificates \
     libnss3 \
     libnspr4 \
     libatk1.0-0 \
@@ -24,6 +25,7 @@ RUN apt-get update && apt-get install -y \
     libcairo2 \
     libatspi2.0-0 \
     libxshmfence1 \
+    && update-ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy package files
@@ -32,14 +34,11 @@ COPY package*.json ./
 # Install Node.js dependencies
 RUN npm ci
 
-# Install Playwright browsers
-RUN npx playwright install --with-deps chromium firefox webkit
+# Install Playwright browsers (uses default location ~/.cache/ms-playwright)
+RUN npx playwright install --with-deps chromium firefox
 
 # Copy application files
 COPY . .
-
-# Set environment variables
-ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
 
 # Default command (can be overridden)
 CMD ["npm", "test"]
