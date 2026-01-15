@@ -56,6 +56,8 @@ jobs:
         retention-days: 7
 
   # Optional: Test report job that runs after all browsers complete
+  # Note: HTML reports are already generated during test runs and uploaded as artifacts
+  # This job can be used to download and view combined reports if needed
   report:
     if: always()
     needs: test
@@ -68,16 +70,7 @@ jobs:
       with:
         path: all-artifacts
     
-    - name: Build Docker image
-      run: docker compose build
-    
-    - name: Generate HTML report
+    - name: Note about reports
       run: |
-        docker compose run --rm playwright npm run test:report || true
-    
-    - name: Upload HTML report
-      uses: actions/upload-artifact@v4
-      with:
-        name: playwright-html-report
-        path: playwright-report/
-        retention-days: 30
+        echo "HTML reports are available in the artifacts from each browser test run."
+        echo "Download the 'playwright-report-<browser>' artifacts to view reports."
