@@ -1,0 +1,21 @@
+# Minimal GitHub Actions workflow example
+# Rename this file to playwright-simple.yml to use it
+
+name: Playwright Tests (Simple)
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Build and run tests
+        run: |
+          docker-compose build
+          docker-compose run --rm playwright npm test

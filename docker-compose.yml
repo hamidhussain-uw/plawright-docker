@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  playwright:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: playwright-tests
+    volumes:
+      # Mount tests directory
+      - ./tests:/app/tests
+      # Mount results directory for test reports
+      - ./test-results:/app/test-results
+      # Mount screenshots directory
+      - ./screenshots:/app/screenshots
+      # Mount videos directory
+      - ./videos:/app/videos
+    environment:
+      - CI=true
+    # Override command if needed
+    # command: npm run test:headed
+    networks:
+      - playwright-network
+
+networks:
+  playwright-network:
+    driver: bridge
