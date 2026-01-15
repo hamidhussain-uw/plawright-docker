@@ -23,11 +23,29 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
     
-    - name: Build Docker image
-      run: docker compose build
+    - name: Build Docker image with cache
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        file: ./Dockerfile
+        push: false
+        tags: plawright-docker-playwright:latest
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
+        load: true
     
     - name: Run Playwright tests
-      run: docker compose run --rm playwright npm test --project=${{ matrix.browser }}
+      run: |
+        docker run --rm \
+          --name playwright-tests-${{ matrix.browser }} \
+          -v ${{ github.workspace }}/tests:/app/tests:ro \
+          -v ${{ github.workspace }}/test-results:/app/test-results \
+          -v ${{ github.workspace }}/playwright-report:/app/playwright-report \
+          -v ${{ github.workspace }}/screenshots:/app/screenshots \
+          -v ${{ github.workspace }}/videos:/app/videos \
+          -e CI=true \
+          plawright-docker-playwright:latest \
+          npm test --project=${{ matrix.browser }}
     
     - name: Upload test results
       if: always()
